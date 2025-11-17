@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import errorHandler from "./middleware/errorHandler.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString(),
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

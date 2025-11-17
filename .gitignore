@@ -63,3 +63,6 @@ frontend/.vite/
 logs/
 *.log
 
+# Project planning documents
+plan.md
+
