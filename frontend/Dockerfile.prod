@@ -1,0 +1,30 @@
+# Build stage - production build banane ke liye
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+# Package files copy karein
+COPY package*.json ./
+RUN npm ci
+
+# Source code copy karein
+COPY . .
+
+# Production build banayein
+RUN npm run build
+
+# Production stage - Nginx se serve karein
+FROM nginx:alpine
+
+# Build files copy karein
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Nginx config copy karein (agar custom config ho)
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Port expose karein
+EXPOSE 80
+
+# Nginx start karein
+CMD ["nginx", "-g", "daemon off;"]
+
