@@ -55,6 +55,65 @@ export const validateLogin = [
     .withMessage("Invalid password format"),
 ];
 
+export const validateTransactionCreate = [
+  body("type")
+    .trim()
+    .notEmpty()
+    .withMessage("Type is required")
+    .isIn(["income", "expense"])
+    .withMessage("Type must be either income or expense"),
+  body("amount")
+    .notEmpty()
+    .withMessage("Amount is required")
+    .isFloat({ min: 0 })
+    .withMessage("Amount must be a positive number")
+    .toFloat(),
+  body("category")
+    .trim()
+    .notEmpty()
+    .withMessage("Category is required")
+    .isLength({ max: 50 })
+    .withMessage("Category cannot exceed 50 characters"),
+  body("description")
+    .optional()
+    .trim()
+    .isLength({ max: 200 })
+    .withMessage("Description cannot exceed 200 characters"),
+  body("date")
+    .optional()
+    .isISO8601()
+    .withMessage("Date must be a valid ISO 8601 string")
+    .toDate(),
+];
+
+export const validateTransactionUpdate = [
+  body("type")
+    .optional()
+    .trim()
+    .isIn(["income", "expense"])
+    .withMessage("Type must be either income or expense"),
+  body("amount")
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage("Amount must be a positive number")
+    .toFloat(),
+  body("category")
+    .optional()
+    .trim()
+    .isLength({ max: 50 })
+    .withMessage("Category cannot exceed 50 characters"),
+  body("description")
+    .optional()
+    .trim()
+    .isLength({ max: 200 })
+    .withMessage("Description cannot exceed 200 characters"),
+  body("date")
+    .optional()
+    .isISO8601()
+    .withMessage("Date must be a valid ISO 8601 string")
+    .toDate(),
+];
+
 export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
