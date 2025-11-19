@@ -5,6 +5,7 @@ import connectDB from "./config/database.js";
 import errorHandler from "./middleware/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
+import budgetRoutes from "./routes/budgetRoutes.js";
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.get("/health", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
+app.use("/api/budgets", budgetRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

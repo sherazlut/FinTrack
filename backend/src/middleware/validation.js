@@ -114,6 +114,56 @@ export const validateTransactionUpdate = [
     .toDate(),
 ];
 
+export const validateBudgetCreate = [
+  body("category")
+    .trim()
+    .notEmpty()
+    .withMessage("Category is required")
+    .isLength({ max: 50 })
+    .withMessage("Category cannot exceed 50 characters"),
+  body("monthlyLimit")
+    .notEmpty()
+    .withMessage("Monthly limit is required")
+    .isFloat({ min: 0 })
+    .withMessage("Monthly limit must be a positive number")
+    .toFloat(),
+  body("month")
+    .notEmpty()
+    .withMessage("Month is required")
+    .isInt({ min: 1, max: 12 })
+    .withMessage("Month must be between 1 and 12")
+    .toInt(),
+  body("year")
+    .notEmpty()
+    .withMessage("Year is required")
+    .isInt({ min: 2000, max: 2100 })
+    .withMessage("Year must be a valid year")
+    .toInt(),
+];
+
+export const validateBudgetUpdate = [
+  body("category")
+    .optional()
+    .trim()
+    .isLength({ max: 50 })
+    .withMessage("Category cannot exceed 50 characters"),
+  body("monthlyLimit")
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage("Monthly limit must be a positive number")
+    .toFloat(),
+  body("month")
+    .optional()
+    .isInt({ min: 1, max: 12 })
+    .withMessage("Month must be between 1 and 12")
+    .toInt(),
+  body("year")
+    .optional()
+    .isInt({ min: 2000, max: 2100 })
+    .withMessage("Year must be a valid year")
+    .toInt(),
+];
+
 export const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
