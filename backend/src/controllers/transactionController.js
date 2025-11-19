@@ -167,7 +167,7 @@ export const deleteTransaction = async (req, res, next) => {
 export const getSummary = async (req, res, next) => {
   try {
     const filters = buildFilters(req.query);
-    filters.user = mongoose.Types.ObjectId.createFromHexString(req.user.id);
+    filters.user = new mongoose.Types.ObjectId(req.user.id);
 
     const summary = await Transaction.aggregate([
       { $match: filters },
