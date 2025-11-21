@@ -1,5 +1,6 @@
 import { body, validationResult } from "express-validator";
 
+// Validation middleware for user registration
 export const validateRegister = [
   body("name")
     .trim()
