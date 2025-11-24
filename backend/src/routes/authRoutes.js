@@ -1,5 +1,10 @@
 import express from "express";
-import { register, login, getMe } from "../controllers/authController.js";
+import {
+  register,
+  login,
+  getMe,
+  logout,
+} from "../controllers/authController.js";
 import { protect } from "../middleware/auth.js";
 import {
   validateRegister,
@@ -27,5 +32,7 @@ router.post(
 );
 
 router.get("/me", protect, getMe);
+
+router.post("/logout", protect, logout);
 
 export default router;

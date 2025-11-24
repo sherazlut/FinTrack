@@ -4,7 +4,12 @@ import { verifyToken } from "../utils/generateToken.js";
 export const protect = async (req, res, next) => {
   let token;
 
-  if (
+  // First check cookies (HttpOnly cookie) - priority for web clients
+  if (req.cookies && req.cookies.token) {
+    token = req.cookies.token;
+  }
+  // Fallback to Authorization header (for API clients if needed)
+  else if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
   ) {
@@ -14,7 +19,7 @@ export const protect = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({
       success: false,
-      message: "Not authorized to access this route. Please provide a token",
+      message: "Not authorized to access this route. Please login",
     });
   }
 

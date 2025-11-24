@@ -22,10 +22,20 @@ export const register = async (req, res, next) => {
 
     const token = generateToken(user._id);
 
+    // Set HttpOnly cookie for security
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict", // CSRF protection
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days (same as token expiry)
+      path: "/",
+    };
+
+    res.cookie("token", token, cookieOptions);
+
     res.status(201).json({
       success: true,
       message: "Account created successfully",
-      token,
       user: {
         id: user._id,
         name: user.name,
@@ -109,10 +119,19 @@ export const login = async (req, res, next) => {
 
     const token = generateToken(user._id);
 
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      path: "/",
+    };
+
+    res.cookie("token", token, cookieOptions);
+
     res.status(200).json({
       success: true,
       message: "Login successful",
-      token,
       user: {
         id: user._id,
         name: user.name,
@@ -143,6 +162,26 @@ export const getMe = async (req, res, next) => {
         email: user.email,
         createdAt: user.createdAt,
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const logout = async (req, res, next) => {
+  try {
+    // Clear the HttpOnly cookie
+    res.cookie("token", "", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      expires: new Date(0), // Expire immediately
+      path: "/",
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "Logged out successfully",
     });
   } catch (error) {
     next(error);
