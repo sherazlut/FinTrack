@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,13 +12,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import useAuthStore from "@/store/authStore";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { register, isLoading, error, clearError } = useAuthStore();
+  const { register, isLoading, clearError } = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -25,7 +25,11 @@ const Register = () => {
     clearError();
     const result = await register(name, email, password);
     if (result.success) {
+      toast.success("Registration successful!");
       navigate("/dashboard");
+    } else {
+      // Show toast with error message
+      toast.error(result.error || "Registration failed");
     }
   };
 
@@ -38,11 +42,6 @@ const Register = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
             <div className="space-y-2">
               <Label htmlFor="name">Name</Label>
               <Input

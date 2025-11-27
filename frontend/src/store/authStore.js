@@ -16,9 +16,23 @@ const useAuthStore = create((set) => ({
       set({ user, isLoading: false, error: null });
       return { success: true };
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Login failed";
+      // Extract error message from validation errors array or message
+      let errorMessage = "Login failed";
+      const errorData = error.response?.data;
+
+      if (
+        errorData?.errors &&
+        Array.isArray(errorData.errors) &&
+        errorData.errors.length > 0
+      ) {
+        // Join all validation error messages
+        errorMessage = errorData.errors.map((err) => err.message).join(", ");
+      } else if (errorData?.message) {
+        errorMessage = errorData.message;
+      }
+
       set({ isLoading: false, error: errorMessage });
-      return { success: false, error: errorMessage };
+      return { success: false, error: errorMessage, errors: errorData?.errors };
     }
   },
 
@@ -37,10 +51,23 @@ const useAuthStore = create((set) => ({
       set({ user, isLoading: false, error: null });
       return { success: true };
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Registration failed";
+      // Extract error message from validation errors array or message
+      let errorMessage = "Registration failed";
+      const errorData = error.response?.data;
+
+      if (
+        errorData?.errors &&
+        Array.isArray(errorData.errors) &&
+        errorData.errors.length > 0
+      ) {
+        // Join all validation error messages
+        errorMessage = errorData.errors.map((err) => err.message).join(", ");
+      } else if (errorData?.message) {
+        errorMessage = errorData.message;
+      }
+
       set({ isLoading: false, error: errorMessage });
-      return { success: false, error: errorMessage };
+      return { success: false, error: errorMessage, errors: errorData?.errors };
     }
   },
 

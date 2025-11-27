@@ -6,10 +6,11 @@ const ProtectedRoute = ({ children }) => {
   const { user, getCurrentUser, isLoading } = useAuthStore();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && !isLoading) {
       getCurrentUser();
     }
-  }, [user, getCurrentUser]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, isLoading]); // Only depend on user and isLoading, not getCurrentUser
 
   if (isLoading) {
     return (
