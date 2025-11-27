@@ -49,7 +49,7 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true });
     try {
       const response = await api.get("/auth/me");
-      set({ user: response.data, isLoading: false });
+      set({ user: response.data.user, isLoading: false });
       return { success: true };
     } catch (error) {
       console.error("Get current user error:", error);
