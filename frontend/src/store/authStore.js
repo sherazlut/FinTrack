@@ -4,6 +4,7 @@ import api from "@/lib/api";
 const useAuthStore = create((set) => ({
   user: null,
   isLoading: false,
+  isInitialized: false, // Track if we've checked auth at least once
   error: null,
 
   login: async (email, password) => {
@@ -13,7 +14,7 @@ const useAuthStore = create((set) => ({
       const { user } = response.data;
 
       // Token cookie me automatically set ho jayega
-      set({ user, isLoading: false, error: null });
+      set({ user, isLoading: false, error: null, isInitialized: true });
       return { success: true };
     } catch (error) {
       // Extract error message from validation errors array or message
@@ -48,7 +49,7 @@ const useAuthStore = create((set) => ({
       const { user } = response.data;
 
       // Token cookie me automatically set ho jayega
-      set({ user, isLoading: false, error: null });
+      set({ user, isLoading: false, error: null, isInitialized: true });
       return { success: true };
     } catch (error) {
       // Extract error message from validation errors array or message
@@ -76,11 +77,15 @@ const useAuthStore = create((set) => ({
     set({ isLoading: true });
     try {
       const response = await api.get("/auth/me");
-      set({ user: response.data.user, isLoading: false });
+      set({
+        user: response.data.user,
+        isLoading: false,
+        isInitialized: true,
+      });
       return { success: true };
     } catch (error) {
       console.error("Get current user error:", error);
-      set({ user: null, isLoading: false });
+      set({ user: null, isLoading: false, isInitialized: true });
       return { success: false };
     }
   },
