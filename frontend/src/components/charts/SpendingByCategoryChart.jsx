@@ -7,12 +7,13 @@ import {
   Tooltip,
 } from "recharts";
 
+// Colors that work well in both light and dark mode
 const COLORS = [
-  "hsl(var(--chart-1))",
-  "hsl(var(--chart-2))",
-  "hsl(var(--chart-3))",
-  "hsl(var(--chart-4))",
-  "hsl(var(--chart-5))",
+  "#60a5fa", // Blue
+  "#f87171", // Red
+  "#fbbf24", // Yellow
+  "#a78bfa", // Purple
+  "#34d399", // Green
 ];
 
 const CustomTooltip = ({ active, payload }) => {
@@ -63,7 +64,12 @@ const SpendingByCategoryChart = ({ data }) => {
           ))}
         </Pie>
         <Tooltip content={<CustomTooltip />} />
-        <Legend />
+        <Legend
+          wrapperStyle={{ color: "hsl(var(--foreground))" }}
+          formatter={(value) => (
+            <span style={{ color: "hsl(var(--foreground))" }}>{value}</span>
+          )}
+        />
       </PieChart>
     </ResponsiveContainer>
   );
