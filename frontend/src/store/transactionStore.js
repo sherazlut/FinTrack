@@ -3,21 +3,15 @@ import api from "@/lib/api";
 
 const useTransactionStore = create((set) => ({
   transactions: [],
-  currentTransaction: null,
-  pagination: {
-    total: 0,
-    page: 1,
-    pages: 0,
-    limit: 50,
-  },
+  pagination: null,
+  isLoading: false,
+  error: null,
   filters: {
     type: "",
     category: "",
     startDate: "",
     endDate: "",
   },
-  isLoading: false,
-  error: null,
 
   // Get all transactions with filters
   getTransactions: async (params = {}) => {
@@ -44,11 +38,7 @@ const useTransactionStore = create((set) => ({
     set({ isLoading: true, error: null });
     try {
       const response = await api.get(`/transactions/${id}`);
-      set({
-        currentTransaction: response.data.data,
-        isLoading: false,
-        error: null,
-      });
+      set({ isLoading: false, error: null });
       return { success: true, data: response.data.data };
     } catch (error) {
       const errorMessage =
@@ -86,10 +76,6 @@ const useTransactionStore = create((set) => ({
         transactions: state.transactions.map((t) =>
           t._id === id ? response.data.data : t
         ),
-        currentTransaction:
-          state.currentTransaction?._id === id
-            ? response.data.data
-            : state.currentTransaction,
         isLoading: false,
         error: null,
       }));
@@ -109,10 +95,6 @@ const useTransactionStore = create((set) => ({
       await api.delete(`/transactions/${id}`);
       set((state) => ({
         transactions: state.transactions.filter((t) => t._id !== id),
-        currentTransaction:
-          state.currentTransaction?._id === id
-            ? null
-            : state.currentTransaction,
         isLoading: false,
         error: null,
       }));
@@ -126,10 +108,14 @@ const useTransactionStore = create((set) => ({
   },
 
   // Set filters
-  setFilters: (filters) => set({ filters: { ...filters } }),
+  setFilters: (newFilters) => {
+    set((state) => ({
+      filters: { ...state.filters, ...newFilters },
+    }));
+  },
 
   // Clear filters
-  clearFilters: () =>
+  clearFilters: () => {
     set({
       filters: {
         type: "",
@@ -137,13 +123,11 @@ const useTransactionStore = create((set) => ({
         startDate: "",
         endDate: "",
       },
-    }),
+    });
+  },
 
   // Clear error
   clearError: () => set({ error: null }),
-
-  // Clear current transaction
-  clearCurrentTransaction: () => set({ currentTransaction: null }),
 }));
 
 export default useTransactionStore;
