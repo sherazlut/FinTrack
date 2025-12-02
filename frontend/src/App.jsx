@@ -8,6 +8,7 @@ import Register from "@/pages/Register";
 import Dashboard from "@/pages/Dashboard";
 import Transactions from "@/pages/Transactions";
 import Budgets from "@/pages/Budgets";
+import Analytics from "@/pages/Analytics";
 import { Toaster } from "@/components/ui/sonner";
 
 const App = () => {
@@ -50,6 +51,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Budgets />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <Analytics />
               </ProtectedRoute>
             }
           />
