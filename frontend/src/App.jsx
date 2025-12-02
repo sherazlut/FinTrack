@@ -25,7 +25,7 @@ const App = () => {
   }, []); // Only run once on mount
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />

@@ -54,15 +54,12 @@ const BudgetVsActualChart = ({ data }) => {
         <XAxis
           dataKey="category"
           className="text-xs"
-          tick={{ fill: "hsl(var(--muted-foreground))" }}
+          tick={{ fill: "hsl(var(--foreground))" }}
           angle={-45}
           textAnchor="end"
           height={80}
         />
-        <YAxis
-          className="text-xs"
-          tick={{ fill: "hsl(var(--muted-foreground))" }}
-        />
+        <YAxis className="text-xs" tick={{ fill: "hsl(var(--foreground))" }} />
         <Tooltip content={<CustomTooltip />} />
         <Legend
           wrapperStyle={{ color: "hsl(var(--foreground))" }}
