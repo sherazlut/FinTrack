@@ -7,6 +7,7 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Dashboard from "@/pages/Dashboard";
 import Transactions from "@/pages/Transactions";
+import Budgets from "@/pages/Budgets";
 import { Toaster } from "@/components/ui/sonner";
 
 const App = () => {
@@ -41,6 +42,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Transactions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/budgets"
+            element={
+              <ProtectedRoute>
+                <Budgets />
               </ProtectedRoute>
             }
           />
