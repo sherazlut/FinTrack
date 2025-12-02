@@ -117,4 +117,35 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Fix chart text visibility */
+  svg text {
+    fill: hsl(var(--foreground)) !important;
+  }
+
+  /* Fix Recharts axis labels */
+  .recharts-cartesian-axis-tick-value {
+    fill: hsl(var(--foreground)) !important;
+  }
+
+  /* Fix Recharts legend text */
+  .recharts-legend-item-text {
+    fill: hsl(var(--foreground)) !important;
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Fix Recharts legend wrapper */
+  .recharts-legend-wrapper {
+    color: hsl(var(--foreground)) !important;
+  }
+
+  /* Ensure chart background is transparent */
+  .recharts-wrapper {
+    background: transparent !important;
+  }
+
+  /* Fix all Recharts text elements */
+  .recharts-text {
+    fill: hsl(var(--foreground)) !important;
+  }
 }

@@ -54,26 +54,28 @@ const BudgetVsActualChart = ({ data }) => {
         <XAxis
           dataKey="category"
           className="text-xs"
-          tick={{ fill: "hsl(var(--muted-foreground))" }}
+          tick={{ fill: "hsl(var(--foreground))" }}
           angle={-45}
           textAnchor="end"
           height={80}
         />
-        <YAxis
-          className="text-xs"
-          tick={{ fill: "hsl(var(--muted-foreground))" }}
-        />
+        <YAxis className="text-xs" tick={{ fill: "hsl(var(--foreground))" }} />
         <Tooltip content={<CustomTooltip />} />
-        <Legend />
+        <Legend
+          wrapperStyle={{ color: "hsl(var(--foreground))" }}
+          formatter={(value) => (
+            <span style={{ color: "hsl(var(--foreground))" }}>{value}</span>
+          )}
+        />
         <Bar
           dataKey="budgeted"
-          fill="hsl(var(--chart-3))"
+          fill="#fbbf24"
           name="Budgeted"
           radius={[4, 4, 0, 0]}
         />
         <Bar
           dataKey="actual"
-          fill="hsl(var(--chart-4))"
+          fill="#a78bfa"
           name="Actual"
           radius={[4, 4, 0, 0]}
         />
