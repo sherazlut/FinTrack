@@ -63,9 +63,16 @@ const MonthlyTrendsChart = ({ data }) => {
         <XAxis
           dataKey="month"
           className="text-xs"
-          tick={{ fill: "hsl(var(--foreground))" }}
+          tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }}
+          angle={-45}
+          textAnchor="end"
+          height={80}
         />
-        <YAxis className="text-xs" tick={{ fill: "hsl(var(--foreground))" }} />
+        <YAxis
+          className="text-xs"
+          tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }}
+          width={60}
+        />
         <Tooltip content={<CustomTooltip />} />
         <Legend
           wrapperStyle={{ color: "hsl(var(--foreground))" }}
