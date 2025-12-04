@@ -143,15 +143,15 @@ const Transactions = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Transactions</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold">Transactions</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Manage your income and expenses
             </p>
           </div>
-          <Button onClick={handleAddClick}>
+          <Button onClick={handleAddClick} className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             Add Transaction
           </Button>
@@ -166,7 +166,7 @@ const Transactions = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-4">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">Type</label>
                 <Select
@@ -261,61 +261,75 @@ const Transactions = () => {
               </div>
             ) : (
               <>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Type</TableHead>
-                      <TableHead>Category</TableHead>
-                      <TableHead>Description</TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {transactions.map((transaction) => (
-                      <TableRow key={transaction._id}>
-                        <TableCell>{formatDate(transaction.date)}</TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              transaction.type === "income"
-                                ? "default"
-                                : "destructive"
-                            }
-                          >
-                            {transaction.type}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{transaction.category}</TableCell>
-                        <TableCell className="max-w-[200px] truncate">
-                          {transaction.description || "-"}
-                        </TableCell>
-                        <TableCell className="text-right font-medium">
-                          {formatCurrency(transaction.amount)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleEditClick(transaction)}
-                            >
-                              <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleDeleteClick(transaction)}
-                            >
-                              <Trash2 className="h-4 w-4 text-destructive" />
-                            </Button>
-                          </div>
-                        </TableCell>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[100px]">Date</TableHead>
+                        <TableHead className="min-w-[80px]">Type</TableHead>
+                        <TableHead className="min-w-[100px]">Category</TableHead>
+                        <TableHead className="min-w-[150px] hidden sm:table-cell">Description</TableHead>
+                        <TableHead className="text-right min-w-[100px]">Amount</TableHead>
+                        <TableHead className="text-right min-w-[100px]">Actions</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {transactions.map((transaction) => (
+                        <TableRow key={transaction._id}>
+                          <TableCell className="font-medium">
+                            <div className="flex flex-col">
+                              <span className="text-xs sm:hidden text-muted-foreground">
+                                {formatDate(transaction.date)}
+                              </span>
+                              <span className="hidden sm:inline">
+                                {formatDate(transaction.date)}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                transaction.type === "income"
+                                  ? "default"
+                                  : "destructive"
+                              }
+                              className="text-xs"
+                            >
+                              {transaction.type}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{transaction.category}</TableCell>
+                          <TableCell className="max-w-[200px] truncate hidden sm:table-cell">
+                            {transaction.description || "-"}
+                          </TableCell>
+                          <TableCell className="text-right font-medium">
+                            {formatCurrency(transaction.amount)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex justify-end gap-2">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleEditClick(transaction)}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Pencil className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => handleDeleteClick(transaction)}
+                                className="h-8 w-8 p-0"
+                              >
+                                <Trash2 className="h-4 w-4 text-destructive" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
 
                 {/* Pagination */}
                 {pagination && pagination.pages > 1 && (
