@@ -87,57 +87,61 @@ const Layout = ({ children }) => {
                   <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[250px] sm:w-[300px]">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                </SheetHeader>
-                <nav className="flex flex-col gap-4 mt-6">
-                  <Link
-                    to="/dashboard"
-                    onClick={handleLinkClick}
-                    className="text-sm font-medium hover:text-primary transition-colors py-2"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    to="/transactions"
-                    onClick={handleLinkClick}
-                    className="text-sm font-medium hover:text-primary transition-colors py-2"
-                  >
-                    Transactions
-                  </Link>
-                  <Link
-                    to="/budgets"
-                    onClick={handleLinkClick}
-                    className="text-sm font-medium hover:text-primary transition-colors py-2"
-                  >
-                    Budgets
-                  </Link>
-                  <Link
-                    to="/analytics"
-                    onClick={handleLinkClick}
-                    className="text-sm font-medium hover:text-primary transition-colors py-2"
-                  >
-                    Analytics
-                  </Link>
-                  {user && (
-                    <div className="pt-4 border-t">
-                      <div className="mb-4">
-                        <p className="text-sm font-medium">{user.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {user.email}
-                        </p>
+              <SheetContent side="right" className="w-[250px] sm:w-[300px] p-0">
+                <div className="flex flex-col h-full">
+                  <SheetHeader className="px-6 pt-6 pb-4">
+                    <SheetTitle>Menu</SheetTitle>
+                  </SheetHeader>
+                  <nav className="flex flex-col gap-1 px-6 flex-1">
+                    <Link
+                      to="/dashboard"
+                      onClick={handleLinkClick}
+                      className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-accent"
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/transactions"
+                      onClick={handleLinkClick}
+                      className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-accent"
+                    >
+                      Transactions
+                    </Link>
+                    <Link
+                      to="/budgets"
+                      onClick={handleLinkClick}
+                      className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-accent"
+                    >
+                      Budgets
+                    </Link>
+                    <Link
+                      to="/analytics"
+                      onClick={handleLinkClick}
+                      className="text-sm font-medium hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-accent"
+                    >
+                      Analytics
+                    </Link>
+                    {user && (
+                      <div className="pt-6 mt-auto pb-6 border-t">
+                        <div className="mb-4 px-2">
+                          <p className="text-sm font-medium mb-1">
+                            {user.name}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {user.email}
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </Button>
                       </div>
-                      <Button
-                        variant="outline"
-                        className="w-full"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </Button>
-                    </div>
-                  )}
-                </nav>
+                    )}
+                  </nav>
+                </div>
               </SheetContent>
             </Sheet>
           </div>
