@@ -267,10 +267,18 @@ const Transactions = () => {
                       <TableRow>
                         <TableHead className="min-w-[100px]">Date</TableHead>
                         <TableHead className="min-w-[80px]">Type</TableHead>
-                        <TableHead className="min-w-[100px]">Category</TableHead>
-                        <TableHead className="min-w-[150px] hidden sm:table-cell">Description</TableHead>
-                        <TableHead className="text-right min-w-[100px]">Amount</TableHead>
-                        <TableHead className="text-right min-w-[100px]">Actions</TableHead>
+                        <TableHead className="min-w-[100px]">
+                          Category
+                        </TableHead>
+                        <TableHead className="min-w-[150px] hidden sm:table-cell">
+                          Description
+                        </TableHead>
+                        <TableHead className="text-right min-w-[100px]">
+                          Amount
+                        </TableHead>
+                        <TableHead className="text-right min-w-[100px]">
+                          Actions
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
