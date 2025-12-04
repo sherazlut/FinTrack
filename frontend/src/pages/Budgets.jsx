@@ -199,15 +199,15 @@ const Budgets = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="space-y-4 sm:space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold">Budgets</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-2xl sm:text-3xl font-bold">Budgets</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">
               Manage your monthly budget limits
             </p>
           </div>
-          <Button onClick={handleAddClick}>
+          <Button onClick={handleAddClick} className="w-full sm:w-auto">
             <Plus className="mr-2 h-4 w-4" />
             Add Budget
           </Button>
@@ -222,7 +222,7 @@ const Budgets = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-2 mb-4">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 mb-4">
               <div>
                 <label className="text-sm font-medium mb-2 block">Month</label>
                 <Select
@@ -310,7 +310,7 @@ const Budgets = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
               <div>
                 <label className="text-sm font-medium mb-2 block">
                   Category
@@ -401,75 +401,99 @@ const Budgets = () => {
               </div>
             ) : (
               <>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Category</TableHead>
-                      <TableHead>Monthly Limit</TableHead>
-                      <TableHead>Month</TableHead>
-                      <TableHead>Year</TableHead>
-                      <TableHead>Progress</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {budgets.map((budget) => {
-                      const progress = getBudgetProgressData(budget._id);
-                      return (
-                        <TableRow key={budget._id}>
-                          <TableCell className="font-medium">
-                            {budget.category}
-                          </TableCell>
-                          <TableCell>
-                            {formatCurrency(budget.monthlyLimit)}
-                          </TableCell>
-                          <TableCell>{MONTHS[budget.month - 1]}</TableCell>
-                          <TableCell>{budget.year}</TableCell>
-                          <TableCell>
-                            {progress ? (
-                              <div className="space-y-1">
-                                <div className="flex items-center justify-between text-xs">
-                                  <span>
-                                    {formatCurrency(progress.actualSpending)} /{" "}
-                                    {formatCurrency(progress.monthlyLimit)}
-                                  </span>
-                                  <span>{progress.percentage.toFixed(1)}%</span>
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[120px]">
+                          Category
+                        </TableHead>
+                        <TableHead className="min-w-[120px]">
+                          Monthly Limit
+                        </TableHead>
+                        <TableHead className="min-w-[100px] hidden sm:table-cell">
+                          Month
+                        </TableHead>
+                        <TableHead className="min-w-[80px] hidden md:table-cell">
+                          Year
+                        </TableHead>
+                        <TableHead className="min-w-[180px]">
+                          Progress
+                        </TableHead>
+                        <TableHead className="text-right min-w-[100px]">
+                          Actions
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {budgets.map((budget) => {
+                        const progress = getBudgetProgressData(budget._id);
+                        return (
+                          <TableRow key={budget._id}>
+                            <TableCell className="font-medium">
+                              {budget.category}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(budget.monthlyLimit)}
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell">
+                              {MONTHS[budget.month - 1]}
+                            </TableCell>
+                            <TableCell className="hidden md:table-cell">
+                              {budget.year}
+                            </TableCell>
+                            <TableCell>
+                              {progress ? (
+                                <div className="space-y-1">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="truncate">
+                                      {formatCurrency(progress.actualSpending)}{" "}
+                                      / {formatCurrency(progress.monthlyLimit)}
+                                    </span>
+                                    <span className="ml-2">
+                                      {progress.percentage.toFixed(1)}%
+                                    </span>
+                                  </div>
+                                  <Progress
+                                    value={Math.min(progress.percentage, 100)}
+                                    className="h-1.5"
+                                  />
+                                  <div className="mt-1">
+                                    {getStatusBadge(progress.percentage)}
+                                  </div>
                                 </div>
-                                <Progress
-                                  value={Math.min(progress.percentage, 100)}
-                                  className="h-1.5"
-                                />
-                                {getStatusBadge(progress.percentage)}
+                              ) : (
+                                <span className="text-muted-foreground text-sm">
+                                  No data
+                                </span>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex justify-end gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleEditClick(budget)}
+                                  className="h-8 w-8 p-0"
+                                >
+                                  <Pencil className="h-4 w-4" />
+                                </Button>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={() => handleDeleteClick(budget)}
+                                  className="h-8 w-8 p-0"
+                                >
+                                  <Trash2 className="h-4 w-4 text-destructive" />
+                                </Button>
                               </div>
-                            ) : (
-                              <span className="text-muted-foreground text-sm">
-                                No data
-                              </span>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleEditClick(budget)}
-                              >
-                                <Pencil className="h-4 w-4" />
-                              </Button>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => handleDeleteClick(budget)}
-                              >
-                                <Trash2 className="h-4 w-4 text-destructive" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
 
                 {/* Pagination */}
                 {pagination && pagination.pages > 1 && (

@@ -163,10 +163,10 @@ const Analytics = () => {
 
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-4 sm:space-y-6">
         <div>
-          <h1 className="text-3xl font-bold">Analytics</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl sm:text-3xl font-bold">Analytics</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">
             Detailed insights into your financial data
           </p>
         </div>
@@ -184,7 +184,7 @@ const Analytics = () => {
               <div>
                 <Label className="mb-2 block">View Mode</Label>
                 <Select value={viewMode} onValueChange={handleViewModeChange}>
-                  <SelectTrigger className="w-[200px]">
+                  <SelectTrigger className="w-full sm:w-[200px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -195,7 +195,7 @@ const Analytics = () => {
               </div>
 
               {viewMode === "custom" ? (
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
                   <div>
                     <Label htmlFor="startDate">Start Date</Label>
                     <Input
@@ -228,7 +228,7 @@ const Analytics = () => {
                   </div>
                 </div>
               ) : (
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
                   <div>
                     <Label>Month</Label>
                     <Select
@@ -275,7 +275,11 @@ const Analytics = () => {
                 </div>
               )}
 
-              <Button onClick={loadAnalytics} disabled={isLoading}>
+              <Button
+                onClick={loadAnalytics}
+                disabled={isLoading}
+                className="w-full sm:w-auto"
+              >
                 {isLoading ? "Loading..." : "Refresh Analytics"}
               </Button>
             </div>
@@ -283,7 +287,7 @@ const Analytics = () => {
         </Card>
 
         {/* Summary Cards */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           <Card>
             <CardHeader>
               <CardTitle>Total Income</CardTitle>
@@ -369,7 +373,7 @@ const Analytics = () => {
         </div>
 
         {/* Charts Section */}
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
           {/* Spending by Category Chart */}
           <Card>
             <CardHeader>

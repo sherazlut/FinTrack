@@ -34,10 +34,10 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
+    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-8">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Register</CardTitle>
+          <CardTitle className="text-2xl">Register</CardTitle>
           <CardDescription>Create a new account to get started</CardDescription>
         </CardHeader>
         <CardContent>
