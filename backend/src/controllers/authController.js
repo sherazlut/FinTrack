@@ -5,8 +5,9 @@ import { generateToken } from "../utils/generateToken.js";
 // Render always uses HTTPS, so we need secure: true and sameSite: "none" for cross-origin cookies
 const getCookieOptions = () => {
   // Check if we're in production (Render) or using HTTPS
-  const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
-  
+  const isProduction =
+    process.env.NODE_ENV === "production" || process.env.RENDER;
+
   return {
     httpOnly: true,
     secure: true, // Always true for Render (HTTPS)
