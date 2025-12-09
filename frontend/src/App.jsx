@@ -12,17 +12,8 @@ import Analytics from "@/pages/Analytics";
 import { Toaster } from "@/components/ui/sonner";
 
 const App = () => {
-  const { getCurrentUser } = useAuthStore();
-
-  useEffect(() => {
-    // Only try to get current user if we're not on login/register pages
-    // This prevents unnecessary API calls and potential redirect loops
-    const currentPath = window.location.pathname;
-    if (currentPath !== "/login" && currentPath !== "/register") {
-      getCurrentUser();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run once on mount
+  // Removed getCurrentUser call from here - ProtectedRoute handles it
+  // This prevents duplicate API calls and race conditions
 
   return (
     <ThemeProvider attribute="class" defaultTheme="light" forcedTheme="light">

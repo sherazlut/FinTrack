@@ -2,12 +2,15 @@ import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 
 // Helper function for cookie options
+// Render always uses HTTPS, so we need secure: true and sameSite: "none" for cross-origin cookies
 const getCookieOptions = () => {
-  const isProduction = process.env.NODE_ENV === "production";
+  // Check if we're in production (Render) or using HTTPS
+  const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
+  
   return {
     httpOnly: true,
-    secure: isProduction, // HTTPS required in production
-    sameSite: isProduction ? "none" : "lax", // Cross-origin support for production
+    secure: true, // Always true for Render (HTTPS)
+    sameSite: "none", // Required for cross-origin cookies (Vercel -> Render)
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     path: "/",
     domain: undefined, // Let browser set domain automatically
@@ -168,11 +171,10 @@ export const getMe = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     // Clear the HttpOnly cookie
-    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", "", {
       httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction ? "none" : "lax",
+      secure: true, // Always true for Render (HTTPS)
+      sameSite: "none", // Required for cross-origin cookies
       expires: new Date(0), // Expire immediately
       path: "/",
       domain: undefined,

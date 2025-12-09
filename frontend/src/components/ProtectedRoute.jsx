@@ -6,12 +6,18 @@ const ProtectedRoute = ({ children }) => {
   const { user, getCurrentUser, isLoading, isInitialized } = useAuthStore();
 
   useEffect(() => {
-    // Only fetch user if we haven't initialized yet
-    if (!isInitialized && !isLoading) {
+    // Only fetch user if we haven't initialized yet AND user is not already set
+    // If user is already set (from login/register), don't call getCurrentUser again
+    if (!isInitialized && !isLoading && !user) {
       getCurrentUser();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isInitialized, isLoading]); // Only depend on isInitialized and isLoading
+
+  // If user is already set (from login/register), allow access immediately
+  if (user && isInitialized) {
+    return children;
+  }
 
   // Show loading while checking authentication
   if (!isInitialized || isLoading) {
