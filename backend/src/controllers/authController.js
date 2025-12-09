@@ -1,6 +1,19 @@
 import User from "../models/User.js";
 import { generateToken } from "../utils/generateToken.js";
 
+// Helper function for cookie options
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+  return {
+    httpOnly: true,
+    secure: isProduction, // HTTPS required in production
+    sameSite: isProduction ? "none" : "lax", // Cross-origin support for production
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    path: "/",
+    domain: undefined, // Let browser set domain automatically
+  };
+};
+
 export const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -23,15 +36,7 @@ export const register = async (req, res, next) => {
     const token = generateToken(user._id);
 
     // Set HttpOnly cookie for security
-    const cookieOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict", // CSRF protection
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days (same as token expiry)
-      path: "/",
-    };
-
-    res.cookie("token", token, cookieOptions);
+    res.cookie("token", token, getCookieOptions());
 
     res.status(201).json({
       success: true,
@@ -119,15 +124,7 @@ export const login = async (req, res, next) => {
 
     const token = generateToken(user._id);
 
-    const cookieOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      path: "/",
-    };
-
-    res.cookie("token", token, cookieOptions);
+    res.cookie("token", token, getCookieOptions());
 
     res.status(200).json({
       success: true,
@@ -171,12 +168,14 @@ export const getMe = async (req, res, next) => {
 export const logout = async (req, res, next) => {
   try {
     // Clear the HttpOnly cookie
+    const isProduction = process.env.NODE_ENV === "production";
     res.cookie("token", "", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       expires: new Date(0), // Expire immediately
       path: "/",
+      domain: undefined,
     });
 
     res.status(200).json({
